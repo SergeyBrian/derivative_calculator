@@ -7,11 +7,3 @@
 double Operation::getNumber(double val) {
     return 0;
 }
-
-Operation Operation::getDerivative() {
-    return Operation();
-}
-
-string Operation::getString(double val) {
-    return std::string();
-}

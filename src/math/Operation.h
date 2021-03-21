@@ -10,9 +10,10 @@
 using namespace std;
 
 class Operation {
+public:
     virtual double getNumber(double val);
-    virtual string getString(double val);
-    virtual Operation getDerivative();
+    virtual string getString() = 0;
+    virtual Operation *getDerivative() = 0;
 };
 
 

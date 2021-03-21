@@ -3,6 +3,13 @@
 #include <fstream>
 #include <cmath>
 
+#include "src/math/Operation.h"
+#include "src/math/UnaryOperation.h"
+#include "src/math/BinaryOperation.h"
+#include "src/math/Add.h"
+#include "src/math/Constant.h"
+#include "src/math/Variable.h"
+
 using namespace std;
 
 // Global vars
@@ -40,8 +47,16 @@ void getParams(int argc, char ** argv) {
 }
 
 int main(int argc, char ** argv) {
-    getParams(argc, argv);
-    log(source);
+//    getParams(argc, argv);
+//    log(source);
+
+    Constant a(12);
+    Constant b(3);
+    Variable x(0);
+    Add sum1(&a, &x);
+    Add sum2(&sum1, &b);
+
+    cout << sum2.getDerivative()->getNumber(3);
 
     return 0;
 }

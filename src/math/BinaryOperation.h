@@ -5,13 +5,16 @@
 #ifndef DERIVATIVE_CALCULATOR_BINARYOPERATION_H
 #define DERIVATIVE_CALCULATOR_BINARYOPERATION_H
 
-#include <string>
 #include "Operation.h"
-using namespace std;
-class BinaryOperation {
-    virtual double getNumber(Operation left, Operation right);
-    virtual string getString(Operation left, Operation right);
-    virtual Operation getDerivative(Operation left, Operation right);
+
+class BinaryOperation : public Operation {
+public:
+    Operation *left;
+    Operation *right;
+    BinaryOperation(Operation *l, Operation *r) {
+        left=l;
+        right=r;
+    }
 };
 
 
