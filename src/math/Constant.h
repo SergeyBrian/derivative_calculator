@@ -19,6 +19,7 @@ public:
     Operation* getDerivative() override{
         return new Constant(0);
     }
+    int type_id =
 };
 
 

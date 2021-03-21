@@ -9,6 +9,7 @@
 #include "src/math/Add.h"
 #include "src/math/Constant.h"
 #include "src/math/Variable.h"
+#include "src/math/Product.h"
 
 using namespace std;
 
@@ -53,10 +54,10 @@ int main(int argc, char ** argv) {
     Constant a(12);
     Constant b(3);
     Variable x(0);
-    Add sum1(&a, &x);
-    Add sum2(&sum1, &b);
+    Product prod(&a, &x);
+    Add sum2(&prod, &b);
 
-    cout << sum2.getDerivative()->getNumber(3);
+    cout << sum2.getDerivative()->getString();
 
     return 0;
 }
