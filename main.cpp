@@ -6,7 +6,7 @@
 #include "src/math/Operation.h"
 #include "src/math/UnaryOperation.h"
 #include "src/math/BinaryOperation.h"
-#include "src/math/Add.h"
+#include "src/math/Addition.h"
 #include "src/math/Constant.h"
 #include "src/math/Variable.h"
 #include "src/math/Product.h"
@@ -55,9 +55,10 @@ int main(int argc, char ** argv) {
     Constant b(3);
     Variable x(0);
     Product prod(&a, &x);
-    Add sum2(&prod, &b);
+    Addition sum2(&prod, &b);
 
-    cout << sum2.getDerivative()->getString();
+    cout << sum2.getString() << endl << sum2.getDerivative()->getString() << endl;
+    cout << sum2.getDerivative()->getNumber(0);
 
     return 0;
 }

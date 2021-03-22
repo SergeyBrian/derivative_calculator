@@ -6,7 +6,7 @@
 #define DERIVATIVE_CALCULATOR_PRODUCT_H
 #include "BinaryOperation.h"
 #include "Operation.h"
-#include "Constant.h"
+#include "Addition.h"
 
 class Product : public BinaryOperation {
 public:
@@ -18,8 +18,7 @@ public:
         return left->getNumber(val)*right->getNumber(val);
     }
     Operation *getDerivative() override {
-        return (left->type=="Constant") ? new Product(Constant(left->getNumber(0)), right->getDerivative()) :
-        new Product(left->getDerivative(), right->getDerivative());
+        return  new Addition(new Product(left, right->getDerivative()), new Product(left->getDerivative(), right));
     }
 };
 

@@ -15,11 +15,10 @@ public:
         value = val;
     }
     double getNumber(double val) override {return value;}
-    string getString() override {return "c";}
+    string getString() override {return std::to_string(value);}
     Operation* getDerivative() override{
         return new Constant(0);
     }
-    int type_id =
 };
 
 

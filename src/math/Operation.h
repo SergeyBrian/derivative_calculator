@@ -11,7 +11,6 @@ using namespace std;
 
 class Operation {
 public:
-    int type_id;
     virtual double getNumber(double val);
     virtual string getString() = 0;
     virtual Operation *getDerivative() = 0;
