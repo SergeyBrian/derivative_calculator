@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <cmath>
+#include <vector>
 
 #include "src/math/Operation.h"
 #include "src/math/UnaryOperation.h"
@@ -20,18 +21,10 @@ int log_c = 0;
 
 // Functions definitions
 
-template<typename T>
-void log(const T&, bool force=false);
 void getParams(int argc, char ** argv);
+int parseExpression(vector<Operation *> * operands, vector<Operation *> * operators, string expression);
 
 // Code
-
-template<typename T>
-void log(const T& text, bool force) {
-    if (!(verbose||force)) return;
-    cout << endl << "[" << log_c << "]: " << text << endl;
-    log_c++;
-}
 
 void getParams(int argc, char ** argv) {
     if (argc > 1) {
@@ -47,18 +40,54 @@ void getParams(int argc, char ** argv) {
     cin >> source;
 }
 
+/*!
+ *
+ * @param parsed vector to which the result of parsing will be written
+ * @param expression string containing math expression
+ * @return result of parsing:
+ * 0 - Success
+ */
+int parseExpression(vector<Operation *> * operands, vector<Operation *> * operators, string expression) {
+    vector<string> tokens;
+    string token;
+    for (int i = 0; i < expression.length(); i++) {
+        char sym = expression[i];
+        cout << endl << sym;
+        if (token.length()) {
+            if ((token[0] == 'x') ||
+            (isdigit(token[0]) && !isdigit(sym)) ||
+            (isalpha(token[0]) && !isalpha(sym)) ||
+            (ispunct(sym)) ||
+            (ispunct(token[0]))) {
+                tokens.push_back(token);
+                token.clear();
+                token += sym;
+            } else token+=sym;
+        } else token += (sym);
+        cout << endl << "> " <<  token;
+
+        if (i == expression.length() - 1) {
+            tokens.push_back(token);
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char ** argv) {
-//    getParams(argc, argv);
+    getParams(argc, argv);
 //    log(source);
+    vector<Operation *> operands;
+    vector<Operation *> operators;
+    parseExpression(&operands, &operators, source);
 
-    Constant a(12);
-    Constant b(3);
-    Variable x(0);
-    Product prod(&a, &x);
-    Addition sum2(&prod, &b);
-
-    cout << sum2.getString() << endl << sum2.getDerivative()->getString() << endl;
-    cout << sum2.getDerivative()->getNumber(0);
+//    Constant a(12);
+//    Constant b(3);
+//    Variable x(0);
+//    Product prod(&a, &x);
+//    Addition sum2(&prod, &b);
+//
+//    cout << sum2.getString() << endl << sum2.getDerivative()->getString() << endl;
+//    cout << sum2.getDerivative()->getNumber(0);
 
     return 0;
 }
