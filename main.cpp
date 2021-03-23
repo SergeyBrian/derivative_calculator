@@ -22,9 +22,13 @@ int log_c = 0;
 // Functions definitions
 
 void getParams(int argc, char ** argv);
+void pushUnaryOperator(string basicString, vector<string> *pVector)
+void pushBinaryOperator(string basicString, vector<string> *pVector)
 int parseExpression(vector<Operation *> * operands, vector<Operation *> * operators, string expression);
 
 // Code
+
+void pushUnaryOperator(string basicString, vector<string> *pVector);
 
 void getParams(int argc, char ** argv) {
     if (argc > 1) {
@@ -50,9 +54,9 @@ void getParams(int argc, char ** argv) {
 int parseExpression(vector<Operation *> * operands, vector<Operation *> * operators, string expression) {
     vector<string> tokens;
     string token;
+    // Generates vector of tokens to be processed later
     for (int i = 0; i < expression.length(); i++) {
         char sym = expression[i];
-        cout << endl << sym;
         if (token.length()) {
             if ((token[0] == 'x') ||
             (isdigit(token[0]) && !isdigit(sym)) ||
@@ -64,13 +68,26 @@ int parseExpression(vector<Operation *> * operands, vector<Operation *> * operat
                 token += sym;
             } else token+=sym;
         } else token += (sym);
-        cout << endl << "> " <<  token;
 
         if (i == expression.length() - 1) {
             tokens.push_back(token);
         }
     }
+
+    // Using shunting yard algorithm
+    cout << endl;
+    for (int i = 0; i < tokens.size(); i++) {
+        token = tokens[i];
+        if (isdigit(token[0])) operands->push_back(new Constant(stod(token)));
+        else if (token[0]=='x') operands->push_back(new Variable(0));
+        else if (isalpha(token[0])) pushUnaryOperator(token, &tokens)
+    }
+
     return 0;
+}
+
+void pushUnaryOperator(string basicString, vector<string> *pVector) {
+
 }
 
 int main(int argc, char ** argv) {

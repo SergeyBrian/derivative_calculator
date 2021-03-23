@@ -6,7 +6,7 @@
 #define DERIVATIVE_CALCULATOR_OPERATION_H
 
 #include <string>
-
+#include <cmath>
 using namespace std;
 
 class Operation {
