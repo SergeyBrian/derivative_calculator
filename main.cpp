@@ -38,6 +38,6 @@ int main(int argc, char ** argv) {
 
     Parser parser;
     Operation * result = parser.Parse(source);
-
+    cout << "\n\nResult: " << result->getDerivative()->getString();
     return 0;
 }

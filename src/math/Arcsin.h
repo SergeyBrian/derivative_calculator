@@ -11,7 +11,7 @@
 #include "Sqrt.h"
 
 
-class Arcsin : UnaryOperation{
+class Arcsin : public UnaryOperation{
 public:
     explicit Arcsin(Operation *o) : UnaryOperation(o)  {};
     string getString() override {

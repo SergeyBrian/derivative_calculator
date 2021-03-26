@@ -105,7 +105,6 @@ int Parser::parseTokens(vector<string> * queue, vector<string> * tokens) {
 
     // Parse all tokens
     for (auto token : *tokens) {
-        std::cout << "\n: " << token;
         if (isdigit(token[0]) || token[0] == 'x') updateQueue(queue, token); // Push digits and variables to queue
         else if (find(operations.begin(), operations.end(), token) != operations.end()) {
             updateStack(&stack, queue, token);
@@ -122,6 +121,76 @@ int Parser::parseTokens(vector<string> * queue, vector<string> * tokens) {
     return 0;
 }
 
+int Parser::updateOperationsStack(vector<Operation *> * stack, const string& token) {
+    vector<string> unaryOperators {
+            "sin", "cos", "tan",
+            "asin", "acos", "atan",
+            "sqrt", "log", "exp"
+    };
+    vector<string> binaryOperators {
+            "^", "*", "/",
+            "+", "-"
+    };
+    if (getIndex(&binaryOperators, token) + 1) {
+        if (stack->size() < 2) return 1;
+
+        if (token=="*") stack->push_back(new Product(stack->front(), stack->at(1)));
+        else if (token=="^") stack->push_back(new Pow(stack->front(), stack->at(1)));
+        else if (token=="/") stack->push_back(new Division(stack->front(), stack->at(1)));
+        else if (token=="+") stack->push_back(new Addition(stack->front(), stack->at(1)));
+        else if (token=="-") stack->push_back(new Subtraction(stack->front(), stack->at(1)));
+
+        stack->erase(stack->begin(), stack->begin() + 2);
+        if (stack->size() > 1) updateOperationsStack(stack, token);
+    } else {
+        if (stack->size() > 1) return 2;
+
+        if (token=="sin") stack->push_back(new Sin(stack->front()));
+        else if (token=="cos") stack->push_back(new Cos(stack->front()));
+        else if (token=="tan") stack->push_back(new Tan(stack->front()));
+        else if (token=="asin") stack->push_back(new Arcsin(stack->front()));
+        else if (token=="acos") stack->push_back(new Arccos(stack->front()));
+        else if (token=="atan") stack->push_back(new Atan(stack->front()));
+        else if (token=="sqrt") stack->push_back(new Sqrt(stack->front()));
+        else if (token=="log") stack->push_back(new Log(stack->front()));
+        else if (token=="exp") stack->push_back(new Exp(stack->front()));
+
+        stack->erase(stack->begin());
+    }
+}
+
+
+/*!
+ * Use stack machine to translate RPN to object of Operation class
+ * @param queue
+ * @param operation
+ * @return 0 - Success
+ * 1 - Not enough operands for binary operation
+ * 2 - Too many operands for unary operation
+ */
+int Parser::convertQueueToOperation(vector<string> * queue) {
+    vector<Operation *> stack;
+
+    for (auto token : *queue) {
+        if (isdigit(token[0])) stack.push_back(new Constant(stod(token)));
+        else if (token == "x") stack.push_back(new Variable());
+
+        else {
+            switch(updateOperationsStack(&stack, token)) {
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+            }
+        }
+    }
+
+    result = stack.back();
+
+    return 0;
+}
+
+
 /*!
  * Perform parsing for given expression
  * @param expression string with source expression
@@ -133,7 +202,14 @@ Operation * Parser::Parse(const string &expression) {
     vector<string> queue;
 
     convertExpressionToTokens(&tokens, source);
-    parseTokens(&queue, &tokens);
+    if (parseTokens(&queue, &tokens)) cout << "\n\nERROR! Invalid token!";
+    switch (convertQueueToOperation(&queue)) {
+        case 1:
+            cout << "\n\nERROR! Not enough operands for binary operation!";
+            break;
+        case 2:
+            cout << "\n\nERROR! Too many operands for unary operation!";
+    }
 
     return result;
 }

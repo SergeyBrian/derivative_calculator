@@ -15,6 +15,18 @@
 #include "../math/Constant.h"
 #include "../math/Variable.h"
 #include "../math/Product.h"
+#include "../math/Pow.h"
+#include "../math/Sin.h"
+#include "../math/Cos.h"
+#include "../math/Tan.h"
+#include "../math/Arcsin.h"
+#include "../math/Arccos.h"
+#include "../math/Atan.h"
+#include "../math/Log.h"
+#include "../math/Exp.h"
+#include "../math/Sqrt.h"
+
+
 
 using namespace std;
 
@@ -37,6 +49,8 @@ private:
     int parseTokens(vector<string> * queue, vector<string> * tokens);
     static void updateQueue(vector<string> * queue, const string &token);
     void updateStack(vector<string> * stack, vector<string> * queue, const string &token);
+    int updateOperationsStack(vector<Operation *> * stack, const string& token);
+    int convertQueueToOperation(vector<string> * queue);
 public:
     Operation * Parse(const string &expression);
 };

@@ -9,10 +9,7 @@
 #include "Constant.h"
 
 class Variable : public Operation {
-private:
-    double value;
 public:
-    explicit Variable(double val){value = val;}
     string getString() override{return "x";}
     double getNumber(double val) override{return val;}
     Operation* getDerivative()  override{return new Constant(1);}
