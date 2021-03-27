@@ -43,8 +43,13 @@ private:
             "(", ")"
     };
 
+    vector<string> precedence4 {"^"};
+    vector<string> precedence3 {"*", "/"};
+    vector<string> precedence2 {"+", "-"};
+
     template<typename T>
     int getIndex(vector<T> * vector, const T& value);
+    static int getPrecedence(const string& token);
     static int convertExpressionToTokens(vector<string> * tokens, string expression);
     int parseTokens(vector<string> * queue, vector<string> * tokens);
     static void updateQueue(vector<string> * queue, const string &token);

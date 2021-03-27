@@ -30,6 +30,15 @@ void Parser::updateQueue(vector<string> * queue, const string& token) {
 }
 
 
+int Parser::getPrecedence(const string& token) {
+    if (token == "^") return 4;
+    if (token == "*" || token == "/") return 3;
+    if (token == "+" || token == "-") return 2;
+    if (token == "(") return 1;
+    return 5;
+}
+
+
 /*!
  * Performs the shunting yard algorithm stack update
  * @param stack
@@ -46,11 +55,12 @@ void Parser::updateStack(vector<string> * stack, vector<string> * queue, const s
                 stack->pop_back();
             } stack->pop_back();
         } else {
-            int operator_precedence = getIndex(&operations, token);
-            int top_operator_precedence = getIndex(&operations, stack->back());
+            int operator_precedence = getPrecedence(token);
+            int top_operator_precedence = getPrecedence(stack->back());
 //            cout << "\n" << top_operator_precedence;
 //            cout << "\ntoken: " << token << " precedence: " << operator_precedence;
-            if (operator_precedence <= top_operator_precedence) stack->push_back(token);
+            if ((operator_precedence > top_operator_precedence) ||
+            (operator_precedence==top_operator_precedence && token != "^")) stack->push_back(token);
             else if (stack->back() != "("){
                 updateQueue(queue, stack->back());
                 stack->pop_back();
@@ -97,7 +107,7 @@ int Parser::convertExpressionToTokens(vector<string> * tokens, string expression
 /*!
  *
  * @param queue vector to which parsing result will be written
- * @param tokens vector generated in `convertExpressionToTokens` function
+ * @param tokens vector generated in convertExpressionToTokens function
  * @return 0 - Success
  * 1 - Invalid token
  */
@@ -106,7 +116,6 @@ int Parser::parseTokens(vector<string> * queue, vector<string> * tokens) {
 
     // Parse all tokens
     for (auto token : *tokens) {
-//        cout << "\n" << token;
         if (isdigit(token[0]) || token[0] == 'x') updateQueue(queue, token); // Push digits and variables to queue
         else if (find(operations.begin(), operations.end(), token) != operations.end()) {
             updateStack(&stack, queue, token);
@@ -136,28 +145,26 @@ int Parser::updateOperationsStack(vector<Operation *> * stack, const string& tok
     if (getIndex(&binaryOperators, token) + 1) {
         if (stack->size() < 2) return 1;
 
-        if (token=="*") stack->push_back(new Product(stack->front(), stack->at(1)));
-        else if (token=="^") stack->push_back(new Pow(stack->front(), stack->at(1)));
-        else if (token=="/") stack->push_back(new Division(stack->front(), stack->at(1)));
-        else if (token=="+") stack->push_back(new Addition(stack->front(), stack->at(1)));
-        else if (token=="-") stack->push_back(new Subtraction(stack->front(), stack->at(1)));
+        if (token=="*") stack->push_back(new Product(stack->end()[-2], stack->back()));
+        else if (token=="^") stack->push_back(new Pow(stack->end()[-2], stack->back()));
+        else if (token=="/") stack->push_back(new Division(stack->end()[-2], stack->back()));
+        else if (token=="+") stack->push_back(new Addition(stack->end()[-2], stack->back()));
+        else if (token=="-") stack->push_back(new Subtraction(stack->end()[-2], stack->back()));
 
-        stack->erase(stack->begin(), stack->begin() + 2);
-        if (stack->size() > 1) updateOperationsStack(stack, token);
+        stack->erase(stack->end()-3, stack->end() - 1);
+//        if (stack->size() > 1) updateOperationsStack(stack, token);
     } else {
-        if (stack->size() > 1) return 2;
+        if (token=="sin") stack->push_back(new Sin(stack->back()));
+        else if (token=="cos") stack->push_back(new Cos(stack->back()));
+        else if (token=="tan") stack->push_back(new Tan(stack->back()));
+        else if (token=="asin") stack->push_back(new Arcsin(stack->back()));
+        else if (token=="acos") stack->push_back(new Arccos(stack->back()));
+        else if (token=="atan") stack->push_back(new Atan(stack->back()));
+        else if (token=="sqrt") stack->push_back(new Sqrt(stack->back()));
+        else if (token=="log") stack->push_back(new Log(stack->back()));
+        else if (token=="exp") stack->push_back(new Exp(stack->back()));
 
-        if (token=="sin") stack->push_back(new Sin(stack->front()));
-        else if (token=="cos") stack->push_back(new Cos(stack->front()));
-        else if (token=="tan") stack->push_back(new Tan(stack->front()));
-        else if (token=="asin") stack->push_back(new Arcsin(stack->front()));
-        else if (token=="acos") stack->push_back(new Arccos(stack->front()));
-        else if (token=="atan") stack->push_back(new Atan(stack->front()));
-        else if (token=="sqrt") stack->push_back(new Sqrt(stack->front()));
-        else if (token=="log") stack->push_back(new Log(stack->front()));
-        else if (token=="exp") stack->push_back(new Exp(stack->front()));
-
-        stack->erase(stack->begin());
+        stack->erase(stack->end()-2);
     }
     return 0;
 }
@@ -180,6 +187,7 @@ int Parser::convertQueueToOperation(vector<string> * queue) {
 
         else {
             switch(updateOperationsStack(&stack, token)) {
+
                 case 1:
                     return 1;
                 case 2:
@@ -209,9 +217,10 @@ Operation * Parser::Parse(const string &expression) {
     switch (convertQueueToOperation(&queue)) {
         case 1:
             cout << "\n\nERROR! Not enough operands for binary operation!";
-            break;
+            exit(1);
         case 2:
             cout << "\n\nERROR! Too many operands for unary operation!";
+            exit(2);
     }
 
     return result;

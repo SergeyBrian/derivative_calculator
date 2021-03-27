@@ -29,8 +29,9 @@ int main(int argc, char ** argv) {
 
     Parser parser;
 
-    Operation * result = parser.Parse(source)->getDerivative()->simplify();
-    string final = result->getString();
+    Operation * result = parser.Parse(source)->simplify();
+    string final = result->getDerivative()->getString();
+    cout << result->getString() << endl;
     cout << final;
     return 0;
 }
