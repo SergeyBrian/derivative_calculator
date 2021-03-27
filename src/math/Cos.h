@@ -6,7 +6,6 @@
 #define DERIVATIVE_CALCULATOR_COS_H
 
 #include "UnaryOperation.h"
-#include "Sin.h"
 #include "Negate.h"
 #include "Product.h"
 
@@ -19,7 +18,8 @@ public:
     double getNumber(double val) override {
         return cos(operation->getNumber(val));
     }
-    Operation *getDerivative();
+    Operation *getDerivative() override;
+    Operation *simplify() override{return new Cos(operation->simplify());}
 };
 
 

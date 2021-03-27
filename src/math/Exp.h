@@ -19,6 +19,7 @@ public:
     Operation *getDerivative() override {
         return new Product(new Exp(operation), operation->getDerivative());
     }
+    Operation *simplify() override{return new Exp(operation->simplify());}
 };
 
 

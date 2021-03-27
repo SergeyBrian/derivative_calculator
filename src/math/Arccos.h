@@ -22,7 +22,8 @@ public:
     double getNumber(double val) override {
         return acos(operation->getNumber(val));
     }
-    Operation *getDerivative();
+    Operation *getDerivative() override;
+    Operation *simplify() override{return new Arccos(operation->simplify());}
 };
 
 

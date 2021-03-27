@@ -13,6 +13,7 @@ public:
     string getString() override{return "x";}
     double getNumber(double val) override{return val;}
     Operation* getDerivative()  override{return new Constant(1);}
+    Operation* simplify() override{return new Variable();}
 };
 
 

@@ -24,6 +24,8 @@ public:
     Operation *getDerivative() override {
         return new Division(operation->getDerivative(), new Pow(new Cos(operation), new Constant(2)));
     }
+    Operation *simplify() override{return new Tan(operation->simplify());}
+
 };
 
 

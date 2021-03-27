@@ -48,9 +48,10 @@ void Parser::updateStack(vector<string> * stack, vector<string> * queue, const s
         } else {
             int operator_precedence = getIndex(&operations, token);
             int top_operator_precedence = getIndex(&operations, stack->back());
-
+//            cout << "\n" << top_operator_precedence;
+//            cout << "\ntoken: " << token << " precedence: " << operator_precedence;
             if (operator_precedence <= top_operator_precedence) stack->push_back(token);
-            else {
+            else if (stack->back() != "("){
                 updateQueue(queue, stack->back());
                 stack->pop_back();
                 updateStack(stack, queue, token);
@@ -105,6 +106,7 @@ int Parser::parseTokens(vector<string> * queue, vector<string> * tokens) {
 
     // Parse all tokens
     for (auto token : *tokens) {
+//        cout << "\n" << token;
         if (isdigit(token[0]) || token[0] == 'x') updateQueue(queue, token); // Push digits and variables to queue
         else if (find(operations.begin(), operations.end(), token) != operations.end()) {
             updateStack(&stack, queue, token);
@@ -157,6 +159,7 @@ int Parser::updateOperationsStack(vector<Operation *> * stack, const string& tok
 
         stack->erase(stack->begin());
     }
+    return 0;
 }
 
 

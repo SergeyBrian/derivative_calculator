@@ -23,6 +23,8 @@ public:
         return new Division(operation->getDerivative(),
                             new Product(new Constant(2), new Sqrt(operation)));
     }
+    Operation *simplify() override{return new Sqrt(operation->simplify());}
+
 };
 
 

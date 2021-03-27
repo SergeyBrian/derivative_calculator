@@ -26,6 +26,7 @@ public:
                             new Addition(new Constant(1),
                                          new Pow(new Cos(operation), new Constant(2))));
     }
+    Operation *simplify() override{return new Atan(operation->simplify());}
 };
 
 

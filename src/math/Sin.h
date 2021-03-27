@@ -19,6 +19,8 @@ public:
         return sin(operation->getNumber(val));
     }
     Operation *getDerivative();
+    Operation *simplify() override{return new Sin(operation->simplify());}
+
 };
 
 

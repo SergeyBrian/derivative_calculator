@@ -22,7 +22,16 @@ public:
     double getNumber(double val) override {
         return pow(left->getNumber(val), right->getNumber(val));
     }
-    Operation *getDerivative();
+    Operation *getDerivative() override;
+    Operation *simplify() override{
+        if (right->simplify()->isZero() || left->simplify()->isOne()) return new Constant(1);
+        if (right->simplify()->isOne()) return left->simplify();
+        if (left->simplify()->isZero()) return new Constant(0);
+        if (dynamic_cast<Constant*>(left->simplify()) && dynamic_cast<Constant*>(right->simplify()))
+            return new Constant(pow(left->simplify()->getNumber(0), right->simplify()->getNumber(0)));
+        else return new Pow(left->simplify(), right->simplify());
+
+    }
 };
 
 

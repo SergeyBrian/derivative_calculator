@@ -3,6 +3,7 @@
 //
 
 #include "Division.h"
+#include "Pow.h"
 
 Operation * Division::getDerivative() {
     return new Division(new Subtraction(

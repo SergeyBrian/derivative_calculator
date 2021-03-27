@@ -15,10 +15,15 @@ public:
         value = val;
     }
     double getNumber(double val) override {return value;}
-    string getString() override {return std::to_string(value);}
-    Operation* getDerivative() override{
-        return new Constant(0);
+    string getString() override {
+        string str = std::to_string(value);
+        str.erase (str.find_last_not_of('0') + 1, std::string::npos );
+        return str.erase (str.find_last_not_of('.') + 1, std::string::npos );
     }
+    Operation* getDerivative() override{return new Constant(0);}
+    Operation* simplify() override{return new Constant(value);}
+    bool isZero() override{return value==0;}
+    bool isOne() override{return value==1;}
 };
 
 

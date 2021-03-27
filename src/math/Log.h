@@ -18,6 +18,8 @@ public:
         return log(operation->getNumber(val));
     }
     Operation *getDerivative();
+    Operation *simplify() override{return new Log(operation->simplify());}
+
 };
 
 

@@ -3,6 +3,7 @@
 //
 
 #include "Cos.h"
+#include "Sin.h"
 
 Operation * Cos::getDerivative() {
     return new Negate(new Product(new Sin(operation), operation->getDerivative()));

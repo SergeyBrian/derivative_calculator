@@ -9,6 +9,7 @@
 #include "UnaryOperation.h"
 #include "Division.h"
 #include "Sqrt.h"
+#include "Pow.h"
 
 
 class Arcsin : public UnaryOperation{
@@ -25,6 +26,7 @@ public:
                             new Sqrt(new Subtraction(new Constant(1),
                                                      new Pow(operation, new Constant(2)))));
     }
+    Operation *simplify() override{return new Arcsin(operation->simplify());}
 };
 
 

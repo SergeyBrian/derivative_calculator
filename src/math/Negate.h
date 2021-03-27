@@ -18,6 +18,8 @@ public:
     Operation *getDerivative() override {
         return new Negate(operation->getDerivative());
     }
+    Operation *simplify() override{return new Negate(operation->simplify());}
+
 };
 
 

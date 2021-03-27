@@ -6,6 +6,7 @@
 #define DERIVATIVE_CALCULATOR_BINARYOPERATION_H
 
 #include "Operation.h"
+#include "Constant.h"
 
 class BinaryOperation : public Operation {
 public:
