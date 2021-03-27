@@ -12,7 +12,7 @@ class Log : public UnaryOperation{
 public:
     explicit Log(Operation *o) : UnaryOperation(o) {};
     string getString() override {
-        return "\\ln{(" + operation->getString() + ")}";
+        return "\\\\ln{(" + operation->getString() + ")}";
     }
     double getNumber(double val) override {
         return log(operation->getNumber(val));

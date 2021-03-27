@@ -13,7 +13,7 @@ class Division : public BinaryOperation{
 public:
     Division(Operation *l, Operation *r) : BinaryOperation (l, r) {};
     string getString() override {
-        return "\\dfrac{" + left->getString() + "}{" + right->getString() + "}";
+        return "\\\\dfrac{" + left->getString() + "}{" + right->getString() + "}";
     }
     double getNumber(double val) override {
         return left->getNumber(val)/right->getNumber(val);

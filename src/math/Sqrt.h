@@ -14,7 +14,7 @@ class Sqrt : public UnaryOperation{
 public:
     explicit Sqrt(Operation *o) : UnaryOperation(o) {};
     string getString() override {
-        return "\\sqrt{" + operation->getString() + "}";
+        return "\\\\sqrt{" + operation->getString() + "}";
     }
     double getNumber(double val) override {
         return sqrt(operation->getNumber(val));

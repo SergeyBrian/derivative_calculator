@@ -16,7 +16,7 @@ class Arcsin : public UnaryOperation{
 public:
     explicit Arcsin(Operation *o) : UnaryOperation(o)  {};
     string getString() override {
-        return "\\arcsin(" + operation->getString() + ")";
+        return "\\\\arcsin(" + operation->getString() + ")";
     }
     double getNumber(double val) override {
         return asin(operation->getNumber(val));

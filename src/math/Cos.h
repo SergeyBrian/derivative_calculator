@@ -13,7 +13,7 @@ class Cos : public UnaryOperation{
 public:
     explicit Cos(Operation *o) : UnaryOperation (o) {};
     string getString() override {
-        return "\\cos(" + operation->getString() + ")";
+        return "\\\\cos(" + operation->getString() + ")";
     }
     double getNumber(double val) override {
         return cos(operation->getNumber(val));

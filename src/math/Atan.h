@@ -16,7 +16,7 @@ class Atan : public UnaryOperation{
 public:
     explicit Atan(Operation *o) : UnaryOperation(o) {};
     string getString() override {
-        return "\\arctan(" + operation->getString() + ")";
+        return "\\\\arctan(" + operation->getString() + ")";
     }
     double getNumber(double val) override {
         return atan(operation->getNumber(val));

@@ -16,7 +16,7 @@ class Tan : public UnaryOperation {
 public:
     explicit Tan(Operation *o) : UnaryOperation (o) {};
     string getString() override {
-        return "\\tan(" + operation->getString() + ")";
+        return "\\\\tan(" + operation->getString() + ")";
     }
     double getNumber(double val) override {
         return tan(operation->getNumber(val));

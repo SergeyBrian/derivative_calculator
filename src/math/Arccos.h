@@ -17,7 +17,7 @@ class Arccos : public UnaryOperation{
 public:
     explicit Arccos(Operation *o) : UnaryOperation(o) {};
     string getString() override {
-        return "\\arccos(" + operation->getString() + ")";
+        return "\\\\arccos(" + operation->getString() + ")";
     }
     double getNumber(double val) override {
         return acos(operation->getNumber(val));

@@ -13,7 +13,7 @@ class Product : public BinaryOperation {
 public:
     Product(Operation *l, Operation *r) : BinaryOperation(l, r) {};
     string getString() override {
-        return "(" + left->getString() + ") \\cdot (" + right->getString() + ")";
+        return "(" + left->getString() + ") \\\\cdot (" + right->getString() + ")";
     }
     double getNumber(double val) override {
         return left->getNumber(val)*right->getNumber(val);

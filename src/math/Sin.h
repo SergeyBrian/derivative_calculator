@@ -13,7 +13,7 @@ class Sin : public UnaryOperation{
 public:
     explicit Sin(Operation *o) : UnaryOperation(o) {};
     string getString() override {
-        return "\\sin(" + operation->getString() + ")";
+        return "\\\\sin(" + operation->getString() + ")";
     }
     double getNumber(double val) override {
         return sin(operation->getNumber(val));

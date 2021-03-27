@@ -2,6 +2,7 @@
 #include <string>
 
 #include "src/parser/Parser.h"
+#include "src/renderer/Renderer.h"
 
 using namespace std;
 
@@ -28,10 +29,13 @@ int main(int argc, char ** argv) {
     getParams(argc, argv);
 
     Parser parser;
+    Renderer renderer;
 
-    Operation * result = parser.Parse(source)->simplify();
-    string final = result->getDerivative()->getString();
+    Operation * result = parser.Parse(source);
+    string final = result->getDerivative()->simplify()->getString();
     cout << result->getString() << endl;
     cout << final;
+    renderer.Render("result.html", result->getString(), final);
+    cout << endl;
     return 0;
 }
