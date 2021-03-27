@@ -4,6 +4,7 @@
 
 #include "Parser.h"
 #include <iostream>
+#include <algorithm>
 
 /*!
  * Returns index of element with given value in given vector
