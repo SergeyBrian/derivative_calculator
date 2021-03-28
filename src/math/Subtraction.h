@@ -20,7 +20,10 @@ public:
         return new Subtraction(left->getDerivative(), right->getDerivative());
     }
     Operation *simplify() override{
-        if (left->simplify()->isZero()) return new Negate(right->simplify());
+        if (left->simplify()->isZero()) {
+            Operation * r = new Negate(right->simplify());
+            return r->simplify();
+        }
         if (right->simplify()->isZero()) return left->simplify();
         if (dynamic_cast<Constant*>(left->simplify()) && dynamic_cast<Constant*>(right->simplify()))
             return new Constant(left->simplify()->getNumber(0) - right->simplify()->getNumber(0));
