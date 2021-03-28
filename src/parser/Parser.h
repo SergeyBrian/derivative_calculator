@@ -35,7 +35,7 @@ private:
     string source;
     Operation * result;
     vector<string> operations {
-            "sin", "cos", "tan", "ctg",
+            "sin", "cos", "tan",
             "asin", "acos", "atan",
             "sqrt", "log", "exp",
             "^", "*", "/",
