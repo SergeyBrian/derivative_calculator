@@ -10,7 +10,7 @@ Enter math expression as argument:
 
 Or into prompt, if running without arguments:
 
-```
+```bash
 > derivative_calculator
 Enter expression: x^4
 ```
